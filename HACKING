@@ -1,0 +1,9 @@
+For Scala 2.8+:
+* Install sbt
+* To build: sbt compile
+* To test: sbt test
+* To package all versions (instead of just one): sbt "+ package"
+* To generate IntelliJ project: sbt gen-idea
+
+For Scala 2.7.7:
+* ???
