@@ -106,7 +106,10 @@ class PostgresqlDatabaseAdapter(override val schemaNameOpt: Option[String])
                grantees: Array[String],
                privileges: GrantPrivilegeType*): String = {
     Array(
+      // Grant the grantees the usage privilege for the schema.
       super.grantSql(schema_name_opt, "", grantees, UsagePrivilege),
+
+      // Grant the grantees the the given privileges.
       super.grantSql(schema_name_opt, table_name, grantees, privileges:_*)
     ).mkString("; ")
   }
