@@ -36,11 +36,9 @@ import com.imageworks.migration.{AutoCommit,
                                  DuplicateMigrationDescriptionException,
                                  DuplicateMigrationVersionException,
                                  InstallAllMigrations,
-                                 MigrateToVersion,
                                  Migration,
                                  Migrator,
                                  RemoveAllMigrations,
-                                 RollbackMigration,
                                  With}
 
 import org.jmock.{Expectations,
@@ -48,10 +46,28 @@ import org.jmock.{Expectations,
 
 import org.junit.Assert._
 import org.junit.{Before,
-                  Test}
+                  Test,
+                  BeforeClass,
+                  AfterClass}
 
-import java.sql.{DriverManager,
-                 ResultSet}
+import java.sql.ResultSet
+import com.imageworks.migration.RollbackMigration
+import com.imageworks.migration.MigrateToVersion
+
+object MigrationTests
+{
+  @BeforeClass
+  def init(): Unit =
+  {
+    TestDatabase.setUp()
+  }
+
+  @AfterClass
+  def tear_down(): Unit =
+  {
+    TestDatabase.tearDown()
+  }
+}
 
 class MigrationTests
 {
