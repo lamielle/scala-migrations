@@ -40,7 +40,6 @@ import com.imageworks.migration.{AutoCommit,
                                  With}
 
 import java.sql.DriverManager
-import scala.Some
 
 /**
  * Sealed trait abstracting the database to use for testing.

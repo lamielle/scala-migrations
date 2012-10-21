@@ -36,9 +36,11 @@ import com.imageworks.migration.{AutoCommit,
                                  DuplicateMigrationDescriptionException,
                                  DuplicateMigrationVersionException,
                                  InstallAllMigrations,
+                                 MigrateToVersion,
                                  Migration,
                                  Migrator,
                                  RemoveAllMigrations,
+                                 RollbackMigration,
                                  With}
 
 import org.jmock.{Expectations,
@@ -51,8 +53,6 @@ import org.junit.{Before,
                   AfterClass}
 
 import java.sql.ResultSet
-import com.imageworks.migration.RollbackMigration
-import com.imageworks.migration.MigrateToVersion
 
 object MigrationTests
 {
