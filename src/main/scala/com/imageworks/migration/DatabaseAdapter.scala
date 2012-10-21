@@ -459,7 +459,7 @@ class DatabaseAdapter(val schemaNameOpt: Option[String])
    * @param schema_name_opt the optional schema name to qualify the
    *        table name
    * @param table_name the name of the table with the index
-   * @param grantees one or more objects to revoke the new permissions from
+   * @param grantees one or more objects to revoke the permissions from
    * @param privileges one or more GrantPrivilegeType objects describing the
    *        types of permissions to revoke
    * @return the SQL to revoke permissions
@@ -482,7 +482,7 @@ class DatabaseAdapter(val schemaNameOpt: Option[String])
    * Uses the schema_name_opt defined in the adapter.
    *
    * @param table_name the name of the table with the index
-   * @param grantees one or more objects to revoke the new permissions from
+   * @param grantees one or more objects to revoke the permissions from
    * @param privileges one or more GrantPrivilegeType objects describing the
    *        types of permissions to revoke
    * @return the SQL to revoke permissions
