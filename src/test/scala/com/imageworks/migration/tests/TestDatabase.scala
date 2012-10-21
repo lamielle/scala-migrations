@@ -82,12 +82,12 @@ sealed trait TestDatabase
   /**
    * Set up anything before tests are run.
    */
-  def setUp(): Unit
+  def setUp()
 
   /**
    * Tear down anything that was set up before tests were run.
    */
-  def tearDown(): Unit
+  def tearDown()
 }
 
 sealed trait BaseTestDatabase
@@ -325,9 +325,9 @@ object TestDatabase
 
   override def getDatabaseAdapter = db.getDatabaseAdapter
 
-  override def setUp(): Unit = db.setUp()
+  override def setUp() {db.setUp()}
 
-  override def tearDown(): Unit = db.tearDown()
+  override def tearDown() {db.tearDown()}
 
   def execute(connection_builder: ConnectionBuilder,
               sql: String): Boolean =
