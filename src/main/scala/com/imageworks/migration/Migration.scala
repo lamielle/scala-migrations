@@ -741,13 +741,15 @@ abstract class Migration
   /**
    * Add a grant on a schema to one or more grantees.
    *
+   * @param schema_name the schema to grant privileges on
    * @param grantees a non-empty array of grantees
    * @param privileges a non-empty array of privileges to grant to the
    *        grantees
    */
   final
-  def grant(grantees: Array[String],
-            privileges: SchemaPrivilege*) {
+  def grantSchema(schema_name: String,
+                  grantees: Array[String],
+                  privileges: SchemaPrivilege*) {
     if (grantees.isEmpty) {
       throw new IllegalArgumentException("Granting permissions requires " +
                                          "at least one grantee.")
@@ -758,20 +760,24 @@ abstract class Migration
                                          "at least one privilege.")
     }
 
-    throw new UnsupportedOperationException
+    val sql = adapter.grantSchemaSql(schema_name, grantees, privileges: _*)
+
+    if (sql.length > 0) {execute(sql)}
   }
 
   /**
    * Add a grant on a schema to a grantee.
    *
+   * @param schema_name the schema to grant privileges on
    * @param grantee the grantee to grant the privileges to
    * @param privileges a non-empty array of privileges to grant to the
    *        grantees
    */
   final
-  def grant(grantee: String,
-            privileges: SchemaPrivilege*) {
-    grant(Array(grantee), privileges: _*)
+  def grantSchema(schema_name: String,
+                  grantee: String,
+                  privileges: SchemaPrivilege*) {
+    grantSchema(schema_name, Array(grantee), privileges: _*)
   }
 
   /**
@@ -819,13 +825,15 @@ abstract class Migration
   /**
    * Remove privileges on a schema from one or more grantees.
    *
+   * @param schema_name schema to revoke privileges on
    * @param grantees a non-empty array of grantees
    * @param privileges a non-empty array of privileges to remove from
    *        the grantees
    */
   final
-  def revoke(grantees: Array[String],
-             privileges: SchemaPrivilege*) {
+  def revokeSchema(schema_name: String,
+                   grantees: Array[String],
+                   privileges: SchemaPrivilege*) {
     if (grantees.isEmpty) {
       throw new IllegalArgumentException("Revoking permissions requires " +
         "at least one grantee.")
@@ -836,20 +844,24 @@ abstract class Migration
         "at least one privilege.")
     }
 
-    throw new UnsupportedOperationException
+    val sql = adapter.revokeSchemaSql(schema_name, grantees, privileges: _*)
+
+    if (sql.length > 0) {execute(sql)}
   }
 
   /**
    * Remove privileges on a schema from a grantee.
    *
+   * @param schema_name schema to revoke privileges on
    * @param grantee the grantee to revoke privileges from
    * @param privileges a non-empty array of privileges to remove from
    *        the grantee
    */
   final
-  def revoke(grantee: String,
-             privileges: SchemaPrivilege*) {
-    revoke(Array(grantee), privileges: _*)
+  def revokeSchema(schema_name: String,
+                   grantee: String,
+                   privileges: SchemaPrivilege*) {
+    revokeSchema(schema_name, Array(grantee), privileges: _*)
   }
 
   /**

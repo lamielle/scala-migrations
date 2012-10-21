@@ -411,7 +411,7 @@ class MigrationTests
     }
 
     // preform revoke
-    migrator.migrate(RollbackMigration(1),
+    migrator.migrate(RollbackMigration(2),
                      "com.imageworks.migration.tests.grant_and_revoke",
                      false)
 

@@ -39,12 +39,14 @@ class Migrate_200811261514_Usage
   extends Migration
 {
   def up() {
-    grant(TestDatabase.getUserAccountName,
-          UsagePrivilege)
+    grantSchema(TestDatabase.getSchemaName,
+                TestDatabase.getUserAccountName,
+                UsagePrivilege)
   }
 
   def down() {
-    revoke(TestDatabase.getUserAccountName,
-           UsagePrivilege)
+    revokeSchema(TestDatabase.getSchemaName,
+                 TestDatabase.getUserAccountName,
+                 UsagePrivilege)
   }
 }

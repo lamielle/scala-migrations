@@ -494,6 +494,71 @@ class DatabaseAdapter(val schemaNameOpt: Option[String])
     revokeSql(schemaNameOpt, table_name, grantees, privileges: _*)
   }
 
+  private
+  def grantRevokeSchemaCommon(action: String,
+                              schema_name: String,
+                              preposition: String,
+                              grantees: Array[String],
+                              privileges: SchemaPrivilege*): String =
+  {
+    // The GRANT and REVOKE syntax is basically the same
+    val sql = new java.lang.StringBuilder(256)
+      .append(action)
+      .append(' ')
+
+    sql.append((
+      for (priv <- privileges) yield priv match {
+        case UsagePrivilege =>
+          "USAGE"
+      }).mkString(", "))
+
+    val quoted_grantees = for (g <- grantees)
+    yield '"' + unquotedNameConverter(g) + '"'
+
+    val res = sql.append(" ON SCHEMA")
+      .append(' ')
+      .append(unquotedNameConverter(schema_name))
+      .append(' ')
+      .append(preposition)
+      .append(' ')
+      .append(quoted_grantees.mkString(", "))
+      .toString
+    res
+  }
+
+  /**
+   * Different databases have different limitations on the GRANT USAGE statement.
+   *
+   * @param schema_name the schema to grant privileges on
+   * @param grantees one or more objects to grant the new permissions to.
+   * @param privileges one or more SchemaPrivilege objects describing the
+   *        types of permissions to grant.
+   * @return the SQL to grant permissions
+   */
+  def grantSchemaSql(schema_name: String,
+                     grantees: Array[String],
+                     privileges: SchemaPrivilege*): String =
+  {
+    grantRevokeSchemaCommon("GRANT", schema_name, "TO", grantees, privileges: _*)
+  }
+
+  /**
+   * Different databases have different limitations on the REVOKE USAGE statement.
+   * Uses the schema_name_opt defined in the adapter.
+   *
+   * @param schema_name the schema to revoke privileges on
+   * @param grantees one or more objects to grant the new permissions to.
+   * @param privileges one or more SchemaPrivilege objects describing the
+   *        types of permissions to revoke.
+   * @return the SQL to revoke permissions
+   */
+  def revokeSchemaSql(schema_name: String,
+                      grantees: Array[String],
+                      privileges: SchemaPrivilege*): String =
+  {
+    grantRevokeSchemaCommon("REVOKE", schema_name, "FROM", grantees, privileges: _*)
+  }
+
   /**
    * Given a check constraint, create a name for it, using a Name() if it is
    * provided in the options.

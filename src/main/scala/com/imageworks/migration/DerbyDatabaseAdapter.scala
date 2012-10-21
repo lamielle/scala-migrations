@@ -114,4 +114,14 @@ class DerbyDatabaseAdapter(override val schemaNameOpt: Option[String])
       .append(column_definition.toSql)
       .toString
   }
+
+  // Derby doesn't support the "GRANT USAGE" statement.
+  override def grantSchemaSql(schema_name: String,
+                              grantees: Array[String],
+                              privileges: SchemaPrivilege*): String = ""
+
+  // Derby doesn't support the "REVOKE USAGE" statement.
+  override def revokeSchemaSql(schema_name: String,
+                               grantees: Array[String],
+                               privileges: SchemaPrivilege*): String = ""
 }
