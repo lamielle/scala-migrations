@@ -739,6 +739,42 @@ abstract class Migration
   }
 
   /**
+   * Add a grant on a schema to one or more grantees.
+   *
+   * @param grantees a non-empty array of grantees
+   * @param privileges a non-empty array of privileges to grant to the
+   *        grantees
+   */
+  final
+  def grant(grantees: Array[String],
+            privileges: SchemaPrivilege*) {
+    if (grantees.isEmpty) {
+      throw new IllegalArgumentException("Granting permissions requires " +
+                                         "at least one grantee.")
+    }
+
+    if (privileges.isEmpty) {
+      throw new IllegalArgumentException("Granting permissions requires " +
+                                         "at least one privilege.")
+    }
+
+    throw new UnsupportedOperationException
+  }
+
+  /**
+   * Add a grant on a schema to a grantee.
+   *
+   * @param grantee the grantee to grant the privileges to
+   * @param privileges a non-empty array of privileges to grant to the
+   *        grantees
+   */
+  final
+  def grant(grantee: String,
+            privileges: SchemaPrivilege*) {
+    grant(Array(grantee), privileges: _*)
+  }
+
+  /**
    * Remove privileges on a table from one or more grantees.
    *
    * @param table_name the table name to remove the grants from
@@ -778,6 +814,42 @@ abstract class Migration
              grantee: String,
              privileges: GrantPrivilegeType*) {
     revoke(table_name, Array(grantee), privileges: _*)
+  }
+
+  /**
+   * Remove privileges on a schema from one or more grantees.
+   *
+   * @param grantees a non-empty array of grantees
+   * @param privileges a non-empty array of privileges to remove from
+   *        the grantees
+   */
+  final
+  def revoke(grantees: Array[String],
+             privileges: SchemaPrivilege*) {
+    if (grantees.isEmpty) {
+      throw new IllegalArgumentException("Revoking permissions requires " +
+        "at least one grantee.")
+    }
+
+    if (privileges.isEmpty) {
+      throw new IllegalArgumentException("Revoking permissions requires " +
+        "at least one privilege.")
+    }
+
+    throw new UnsupportedOperationException
+  }
+
+  /**
+   * Remove privileges on a schema from a grantee.
+   *
+   * @param grantee the grantee to revoke privileges from
+   * @param privileges a non-empty array of privileges to remove from
+   *        the grantee
+   */
+  final
+  def revoke(grantee: String,
+             privileges: SchemaPrivilege*) {
+    revoke(Array(grantee), privileges: _*)
   }
 
   /**

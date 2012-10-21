@@ -60,6 +60,11 @@ sealed trait ForeignKeyOption
 sealed trait GrantPrivilegeType
 
 /**
+ * The base trait for all schema privilege types.
+ */
+sealed trait SchemaPrivilege
+
+/**
  * The base trait for all index options.
  */
 sealed trait IndexOption
@@ -253,6 +258,12 @@ case object InsertPrivilege
  */
 case object TriggerPrivilege
   extends GrantPrivilegeType
+
+/**
+ * Maps to GRANT USAGE
+ */
+case object UsagePrivilege
+  extends SchemaPrivilege
 
 /**
  * Scala 2.8 deprecates case classes extending other case classes.

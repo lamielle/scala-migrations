@@ -380,7 +380,7 @@ class MigrationTests
     }
 
     // perform grants
-    migrator.migrate(MigrateToVersion(200811261513L),
+    migrator.migrate(MigrateToVersion(200811261514L),
                      "com.imageworks.migration.tests.grant_and_revoke",
                      false)
 
