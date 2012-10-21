@@ -46,13 +46,13 @@ import org.junit.{Before,
 
 object JavaMigratorTests {
   @BeforeClass
-  def init(): Unit =
+  def init()
   {
     TestDatabase.setUp()
   }
 
   @AfterClass
-  def tear_down(): Unit =
+  def tear_down()
   {
     TestDatabase.tearDown()
   }
