@@ -202,7 +202,7 @@ abstract class Migration
         statement.close()
       }
       catch {
-        case e => logger.warn("Error in closing statement:", e)
+        case e: Exception => logger.warn("Error in closing statement:", e)
       }
     }
   }
@@ -235,12 +235,12 @@ abstract class Migration
         c.commit()
       }
       catch {
-        case e1 => {
+        case e1: Exception => {
           try {
             c.rollback()
           }
           catch {
-            case e2 =>
+            case e2: Exception =>
               logger.warn("Trying to rollback a transaction due to " +
                           e1 +
                           " failed and threw:",
@@ -254,7 +254,7 @@ abstract class Migration
           statement.close()
         }
         catch {
-          case e3 => logger.warn("Error in closing prepared statement:", e3)
+          case e3: Exception => logger.warn("Error in closing prepared statement:", e3)
         }
       }
     }
